@@ -13,20 +13,37 @@ Installation
 
 Example
 -------
+Simple
+''''''
 .. code-block:: python
 
   import logging
-  from slack_logger import SlackHandler
+  from slack_logger import SlackHandler, SlackFormatter
 
   sh = SlackHandler('YOUR_WEB_HOOK_URL') # url is like 'https://hooks.slack.com/...'
+  sh.setFormatter(SlackFormatter())
   logging.basicConfig(handlers=[sh])
   logging.warning('warn message')
 
-  logger = logging.getLogger(__name__)
-  sh = SlackHandler(username='logger', icon_emoji=':robot_face:', url='YOUR_WEB_HOOK_URL')
-  logger.addHandler(sh)
-  logger.warn('warn message')
+Using logger
+''''''''''''
+.. code-block:: python
 
-Next step
----------
-Making formatter for better representation in Slack
+  import logging
+  from slack_logger import SlackHandler, SlackFormatter
+
+  logger = logging.getLogger(__name__)
+  logger.setLevel(logging.DEBUG)
+
+  sh = SlackHandler(username='logger', icon_emoji=':robot_face:', url='YOUR_WEB_HOOK_URL')
+  sh.setLevel(logging.DEBUG)
+
+  f = SlackFormatter()
+  sh.setFormatter(f)
+  logger.addHandler(sh)
+
+  logger.debug('debug message')
+  logger.info('info message')
+  logger.warn('warn message')
+  logger.error('error message')
+  logger.critical('critical message')
