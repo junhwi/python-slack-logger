@@ -10,7 +10,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='slack-logger',
-    version='0.1.1',
+    version='0.1.2',
     description='A Python logging handler for Slack integration',
     long_description=long_description,
     url='https://github.com/junhwi/python-slack-logger',
@@ -29,5 +29,5 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     keywords='slack logging',
-    packages=find_packages(),
+    py_modules=['slack_logger'],
 )
