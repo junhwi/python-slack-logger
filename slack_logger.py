@@ -58,3 +58,15 @@ class SlackFormatter(logging.Formatter):
         ret['ts'] = record.created
         ret['text'] = super(SlackFormatter, self).format(record)
         return ret
+
+
+class SlackLogFilter(logging.Filter):
+    """
+    Logging filter to decide when logging to Slack is requested, using
+    the `extra` kwargs:
+
+        `logger.info("...", extra={'notify_slack': True})`
+    """
+
+    def filter(self, record):
+        return getattr(record, 'notify_slack', False)
