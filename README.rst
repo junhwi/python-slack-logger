@@ -47,3 +47,18 @@ Using logger
   logger.warn('warn message')
   logger.error('error message')
   logger.critical('critical message')
+
+Using filter
+''''''''''''
+
+You can also filter some messages only
+
+.. code-block:: python
+
+    from slack_logger import SlackLogFilter
+    
+    sf = SlackLogFilter()
+    sh.addFilter(sf)
+    
+    logger.info('info message')  # Not posted to slack
+    logger.info('info message to slack', extra={'notify_slack': True})  # Posted to slack
