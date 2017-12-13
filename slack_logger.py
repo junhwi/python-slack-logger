@@ -5,7 +5,7 @@ from logging.handlers import HTTPHandler
 
 
 class SlackHandler(HTTPHandler):
-    def __init__(self, url, username=None, icon_url=None, icon_emoji=None, channel=None):
+    def __init__(self, url, username=None, icon_url=None, icon_emoji=None, channel=None, mention=None):
         o = urlparse(url)
         is_secure = o.scheme == 'https'
         HTTPHandler.__init__(self, o.netloc, o.path, method="POST", secure=is_secure)
@@ -13,17 +13,24 @@ class SlackHandler(HTTPHandler):
         self.icon_url = icon_url
         self.icon_emoji = icon_emoji
         self.channel = channel
+        self.mention = mention and mention.lstrip('@')
 
     def mapLogRecord(self, record):
+        text = self.format(record)
+
         if isinstance(self.formatter, SlackFormatter):
             payload = {
                 'attachments': [
-                    self.format(record),
+                    text,
                 ],
             }
+            if self.mention:
+                payload['text'] = '<@{0}>'.format(self.mention)
         else:
+            if self.mention:
+                text = '<@{0}> {1}'.format(self.mention, text)
             payload = {
-                'text': self.format(record),
+                'text': text,
             }
 
         if self.username:

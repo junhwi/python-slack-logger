@@ -62,3 +62,14 @@ You can also filter some messages only
     
     logger.info('info message')  # Not posted to slack
     logger.info('info message to slack', extra={'notify_slack': True})  # Posted to slack
+
+Mentioning someone
+''''''''''''''''''
+
+Use ``mention`` option to send message with mentioning someone:
+
+.. code-block:: python
+
+   sh = SlackHandler('YOUR_WEB_HOOK_URL', mention='U012ABC34')
+
+You can find a member ID (e.g., ``U012ABC34``) from user's profile view.
